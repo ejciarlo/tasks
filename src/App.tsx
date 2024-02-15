@@ -13,7 +13,10 @@ function App(): JSX.Element {
                 Edit <code>src/App.tsx</code> and save. This page will
                 automatically reload. Ethan Ciarlo. Hello World
             </p>
-            <img src="./IMG_5975.JPG" alt="A green duck floating on water." />
+            <img
+                src="https://cdn.britannica.com/92/100692-050-5B69B59B/Mallard.jpg"
+                alt="A green duck floating on water."
+            />
             Facts about me:
             <ol>
                 <li>I have three dogs.</li>
