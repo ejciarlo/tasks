@@ -272,28 +272,41 @@ export function editOption(
     newOption: string
 ): Question[] {
     const newQuestions = questions.map((question) => {
-        return { ...question };
+        return {
+            ...question,
+            options: [...question.options]
+        };
     });
+
+    // Find the index of the target question
     const targetIndex = newQuestions.findIndex(
         (question) => question.id === targetId
     );
-    const targetedQuestion = {
-        ...newQuestions[targetIndex]
-    };
-    newQuestions[targetIndex] = targetedQuestion;
-    if (targetOptionIndex === -1) {
-        targetedQuestion.options.push(newOption);
-    } else {
-        targetedQuestion.options[targetOptionIndex] = newOption;
-    }
-    return newQuestions;
-}
 
-function deepCopyQuestion(question: Question): Question {
-    return {
-        ...question,
-        options: [...question.options] // Create a separate copy of options array
-    };
+    if (targetIndex !== -1) {
+        const targetQuestion = newQuestions[targetIndex];
+        const modifiedQuestion = {
+            ...targetQuestion,
+            options: [...targetQuestion.options]
+        };
+
+        if (targetOptionIndex === -1) {
+            modifiedQuestion.options.push(newOption);
+        } else {
+            if (
+                targetOptionIndex >= 0 &&
+                targetOptionIndex < modifiedQuestion.options.length
+            ) {
+                modifiedQuestion.options[targetOptionIndex] = newOption;
+            } else {
+                console.error("Target option index is out of range.");
+            }
+        }
+
+        newQuestions[targetIndex] = modifiedQuestion;
+    }
+
+    return newQuestions;
 }
 
 /***
@@ -307,30 +320,21 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    // Helper function for deep copying a single question
-    function deepCopyQuestion(question: Question): Question {
+    const newQuestions = questions.map((question) => {
         return {
             ...question,
-            options: [...question.options] // Create a separate copy of options array
+            options: [...question.options]
         };
-    }
-
-    const newQuestions = questions.map((question) => deepCopyQuestion(question));
-
+    });
     const targetIndex = newQuestions.findIndex(
         (question) => question.id === targetId
     );
-
     const newQuestion = {
         ...newQuestions[targetIndex],
         name: "Copy of " + newQuestions[targetIndex].name,
         id: newId
     };
-
-    // Deep copy options array for the duplicated question
     newQuestion.options = [...newQuestions[targetIndex].options];
-
     newQuestions.splice(targetIndex + 1, 0, newQuestion);
-
     return newQuestions;
 }
