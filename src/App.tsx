@@ -14,12 +14,11 @@ import { ChooseTeam } from "./bad-components/ChooseTeam";
 function App(): JSX.Element {
     return (
         <div className="App">
-            <header className="App-header" style={{ background: "red" }}>
+            <header className="App-header">
                 UD CISC275 with React Hooks and TypeScript
             </header>
-
             <hr></hr>
-            {/* <DoubleHalf></DoubleHalf> */}
+            <DoubleHalf></DoubleHalf>
             <hr></hr>
             <ChooseTeam></ChooseTeam>
             <hr></hr>
